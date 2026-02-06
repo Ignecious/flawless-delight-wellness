@@ -1,0 +1,153 @@
+<p-toast></p-toast>
+
+<div class="book-service-container">
+  <div class="container">
+    <div class="booking-layout">
+      <!-- LEFT COLUMN: Booking Summary -->
+      <div class="booking-summary">
+        <div class="treatment-image" *ngIf="treatment">
+          <img [src]="treatment.image" [alt]="treatment.name">
+        </div>
+        
+        <div class="summary-content" *ngIf="treatment">
+          <h2 class="treatment-name">{{ treatment.name }}</h2>
+          <p class="treatment-price">{{ treatment.price }}</p>
+          
+          <div class="booking-details">
+            <h3>Booking Details</h3>
+            
+            <div class="detail-item">
+              <span class="detail-label">Duration:</span>
+              <span class="detail-value">{{ treatment.duration }} minutes</span>
+            </div>
+            
+            <div class="detail-item" *ngIf="selectedDate">
+              <span class="detail-label">Selected Date:</span>
+              <span class="detail-value">{{ selectedDate | date: 'MMMM d, y' }}</span>
+            </div>
+            
+            <div class="detail-item" *ngIf="selectedTimeSlot">
+              <span class="detail-label">Selected Time:</span>
+              <span class="detail-value">{{ selectedTimeSlot }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- RIGHT COLUMN: User Details Form -->
+      <div class="booking-form">
+        <h2>Your Details</h2>
+        
+        <form [formGroup]="bookingForm" (ngSubmit)="onSubmit()">
+          <!-- First Name -->
+          <div class="form-group">
+            <label for="firstName">First Name *</label>
+            <input 
+              pInputText 
+              id="firstName" 
+              formControlName="firstName" 
+              placeholder="Enter your first name"
+              class="form-control"
+            />
+            <small class="error-message" *ngIf="bookingForm.get('firstName')?.touched && bookingForm.get('firstName')?.invalid">
+              {{ getFieldError('firstName') }}
+            </small>
+          </div>
+
+          <!-- Last Name -->
+          <div class="form-group">
+            <label for="lastName">Last Name *</label>
+            <input 
+              pInputText 
+              id="lastName" 
+              formControlName="lastName" 
+              placeholder="Enter your last name"
+              class="form-control"
+            />
+            <small class="error-message" *ngIf="bookingForm.get('lastName')?.touched && bookingForm.get('lastName')?.invalid">
+              {{ getFieldError('lastName') }}
+            </small>
+          </div>
+
+          <!-- Phone Number Section -->
+          <div class="form-group phone-group">
+            <label>Phone Number *</label>
+            <div class="phone-inputs">
+              <p-dropdown 
+                [options]="dialingCodes" 
+                formControlName="dialingCode"
+                optionLabel="label"
+                optionValue="value"
+                placeholder="Code"
+                [style]="{'width': '180px'}"
+              ></p-dropdown>
+              
+              <input 
+                pInputText 
+                formControlName="phone" 
+                placeholder="0782441803"
+                class="form-control phone-input"
+              />
+            </div>
+            <small class="error-message" *ngIf="bookingForm.get('phone')?.touched && bookingForm.get('phone')?.invalid">
+              {{ getFieldError('phone') }}
+            </small>
+          </div>
+
+          <!-- Email Address -->
+          <div class="form-group">
+            <label for="email">Email Address *</label>
+            <input 
+              pInputText 
+              id="email" 
+              formControlName="email" 
+              placeholder="your.email@example.com"
+              class="form-control"
+            />
+            <small class="error-message" *ngIf="bookingForm.get('email')?.touched && bookingForm.get('email')?.invalid">
+              {{ getFieldError('email') }}
+            </small>
+          </div>
+
+          <!-- Date Selection -->
+          <div class="form-group">
+            <label for="date">Select Date *</label>
+            <p-calendar 
+              formControlName="date"
+              [inline]="true"
+              [minDate]="minDate"
+              dateFormat="dd/mm/yy"
+              (onSelect)="onDateChange($event)"
+            ></p-calendar>
+            <small class="error-message" *ngIf="bookingForm.get('date')?.touched && bookingForm.get('date')?.invalid">
+              {{ getFieldError('date') }}
+            </small>
+          </div>
+
+          <!-- Time Slot Selection -->
+          <div class="form-group">
+            <label for="timeSlot">Select Time Slot *</label>
+            <p-dropdown 
+              [options]="timeSlots" 
+              formControlName="timeSlot"
+              placeholder="Choose a time slot"
+              (onChange)="onTimeSlotChange($event.value)"
+              [style]="{'width': '100%'}"
+            ></p-dropdown>
+            <small class="error-message" *ngIf="bookingForm.get('timeSlot')?.touched && bookingForm.get('timeSlot')?.invalid">
+              {{ getFieldError('timeSlot') }}
+            </small>
+          </div>
+
+          <!-- Submit Button -->
+          <button 
+            type="submit" 
+            class="btn-primary submit-button"
+          >
+            Confirm Details
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

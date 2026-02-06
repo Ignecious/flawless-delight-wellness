@@ -1,0 +1,135 @@
+:host {
+  display: block;
+}
+
+.dashboard-container {
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.page-title {
+  font-size: 32px;
+  font-weight: 600;
+  color: var(--text-dark);
+  margin-bottom: 32px;
+}
+
+.cards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 24px;
+  margin-bottom: 32px;
+}
+
+.dashboard-card {
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  transition: all 0.3s ease;
+
+  &:hover {
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+    transform: translateY(-2px);
+  }
+
+  ::ng-deep .p-card-body {
+    padding: 0;
+  }
+
+  ::ng-deep .p-card-content {
+    padding: 0;
+  }
+}
+
+.card-content {
+  display: flex;
+  align-items: flex-start;
+  gap: 20px;
+  padding: 24px;
+}
+
+.card-icon {
+  width: 64px;
+  height: 64px;
+  border-radius: 12px;
+  background-color: var(--primary-color);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+
+  i {
+    font-size: 32px;
+    color: var(--white);
+  }
+
+  &.revenue {
+    background-color: #4CAF50;
+  }
+
+  &.upcoming {
+    background-color: #2196F3;
+  }
+}
+
+.card-details {
+  flex: 1;
+}
+
+.card-title {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--text-light);
+  margin: 0 0 8px 0;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.card-number {
+  font-size: 36px;
+  font-weight: 700;
+  color: var(--text-dark);
+  margin: 4px 0 8px 0;
+  line-height: 1;
+}
+
+.card-subtitle {
+  font-size: 14px;
+  color: var(--text-light);
+  margin: 0 0 4px 0;
+}
+
+.card-info {
+  font-size: 13px;
+  color: var(--text-light);
+  margin: 2px 0;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .page-title {
+    font-size: 24px;
+    margin-bottom: 24px;
+  }
+
+  .cards-grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  .card-content {
+    padding: 20px;
+  }
+
+  .card-icon {
+    width: 56px;
+    height: 56px;
+
+    i {
+      font-size: 28px;
+    }
+  }
+
+  .card-number {
+    font-size: 28px;
+  }
+}
