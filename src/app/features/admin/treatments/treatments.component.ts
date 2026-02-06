@@ -26,7 +26,6 @@ import { AdminTreatment } from '../../../models/admin-treatment.interface';
     ToastModule,
     ConfirmDialogModule
   ],
-  providers: [MessageService, ConfirmationService],
   templateUrl: './treatments.component.html',
   styleUrl: './treatments.component.scss'
 })

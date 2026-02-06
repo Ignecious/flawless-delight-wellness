@@ -38,7 +38,6 @@ interface StatusFilter {
     ToastModule,
     ConfirmDialogModule
   ],
-  providers: [MessageService, ConfirmationService],
   templateUrl: './bookings.component.html',
   styleUrl: './bookings.component.scss'
 })

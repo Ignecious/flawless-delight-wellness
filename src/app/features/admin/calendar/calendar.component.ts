@@ -31,7 +31,6 @@ interface TimeSlotRow {
     ToastModule,
     ConfirmDialogModule
   ],
-  providers: [MessageService, ConfirmationService],
   templateUrl: './calendar.component.html',
   styleUrl: './calendar.component.scss'
 })
