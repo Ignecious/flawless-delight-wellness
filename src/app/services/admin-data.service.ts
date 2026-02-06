@@ -2,6 +2,8 @@ import { Injectable } from '@angular/core';
 import { AdminBooking } from '../models/admin-booking.interface';
 import { AdminTreatment } from '../models/admin-treatment.interface';
 import { Therapist } from '../models/therapist.interface';
+import { PackageBundle } from '../models/package-bundle.interface';
+import { CustomerPackage } from '../models/customer-package.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -25,6 +27,10 @@ export class AdminDataService {
   ];
 
   private bookings: AdminBooking[] = this.createMockBookings();
+
+  private packages: PackageBundle[] = this.createMockPackages();
+
+  private customerPackages: CustomerPackage[] = this.createMockCustomerPackages();
 
   private createMockBookings(): AdminBooking[] {
     return [
@@ -255,5 +261,234 @@ export class AdminDataService {
       case 'cancelled': return 'secondary';
       default: return 'secondary';
     }
+  }
+
+  // Packages methods
+  private createMockPackages(): PackageBundle[] {
+    return [
+      {
+        id: 'pkg-001',
+        name: 'Ultimate Transformation Bundle',
+        description: 'Complete skincare transformation with our most popular treatments',
+        treatments: [
+          { treatmentId: 't1', treatmentName: 'HydraFacial', quantity: 3, duration: 60, pricePerSession: 600 },
+          { treatmentId: 't2', treatmentName: 'Microneedling', quantity: 2, duration: 60, pricePerSession: 700 },
+          { treatmentId: 't3', treatmentName: 'Dermapen Therapy and Body Contouring Bundle', quantity: 1, duration: 90, pricePerSession: 900 }
+        ],
+        regularPrice: 4600, // (600*3) + (700*2) + (900*1)
+        packagePrice: 3600,
+        savings: 1000,
+        validityDays: 90,
+        spacingDays: 14,
+        isActive: true,
+        createdDate: new Date(2025, 11, 15)
+      },
+      {
+        id: 'pkg-002',
+        name: 'Monthly Glow Package',
+        description: 'Perfect monthly maintenance package for radiant skin',
+        treatments: [
+          { treatmentId: 't1', treatmentName: 'HydraFacial', quantity: 2, duration: 60, pricePerSession: 600 },
+          { treatmentId: 't6', treatmentName: 'Luxury Dermaplaning Session', quantity: 1, duration: 60, pricePerSession: 650 },
+          { treatmentId: 't5', treatmentName: 'Skin Consultation', quantity: 1, duration: 30, pricePerSession: 0 }
+        ],
+        regularPrice: 1850, // (600*2) + (650*1) + (0*1)
+        packagePrice: 1450,
+        savings: 400,
+        validityDays: 30,
+        spacingDays: 7,
+        isActive: true,
+        createdDate: new Date(2025, 11, 20)
+      },
+      {
+        id: 'pkg-003',
+        name: 'Starter Wellness Pack',
+        description: 'Introduction to our wellness treatments',
+        treatments: [
+          { treatmentId: 't1', treatmentName: 'HydraFacial', quantity: 1, duration: 60, pricePerSession: 600 },
+          { treatmentId: 't2', treatmentName: 'Microneedling', quantity: 1, duration: 60, pricePerSession: 700 },
+          { treatmentId: 't7', treatmentName: 'Ionic Foot Detox + Infrared Sauna Session', quantity: 1, duration: 60, pricePerSession: 600 }
+        ],
+        regularPrice: 1900, // 600 + 700 + 600
+        packagePrice: 1600,
+        savings: 300,
+        validityDays: 60,
+        spacingDays: 14,
+        isActive: true,
+        createdDate: new Date(2025, 11, 25)
+      }
+    ];
+  }
+
+  private createMockCustomerPackages(): CustomerPackage[] {
+    return [
+      {
+        id: 'cp-001',
+        clientId: 'C001',
+        clientName: 'Iggie Mushanguri',
+        packageBundleId: 'pkg-001',
+        packageName: 'Ultimate Transformation Bundle',
+        purchaseDate: new Date(2026, 0, 15), // Jan 15, 2026
+        expiryDate: new Date(2026, 3, 15), // April 15, 2026
+        price: 3600,
+        status: 'active',
+        treatments: [
+          {
+            treatmentId: 't1',
+            treatmentName: 'HydraFacial',
+            totalQuantity: 3,
+            completedQuantity: 2,
+            remainingQuantity: 1,
+            completedSessions: [
+              { bookingId: '001', date: new Date(2026, 0, 20), therapistName: 'Sarah Johnson' },
+              { bookingId: '008', date: new Date(2026, 1, 6), therapistName: 'Sarah Johnson' }
+            ]
+          },
+          {
+            treatmentId: 't2',
+            treatmentName: 'Microneedling',
+            totalQuantity: 2,
+            completedQuantity: 1,
+            remainingQuantity: 1,
+            completedSessions: [
+              { bookingId: '005', date: new Date(2026, 1, 3), therapistName: 'Emily Brown' }
+            ]
+          },
+          {
+            treatmentId: 't3',
+            treatmentName: 'Dermapen Therapy and Body Contouring Bundle',
+            totalQuantity: 1,
+            completedQuantity: 0,
+            remainingQuantity: 1,
+            completedSessions: []
+          }
+        ]
+      },
+      {
+        id: 'cp-002',
+        clientId: 'C002',
+        clientName: 'Sarah Khan',
+        packageBundleId: 'pkg-002',
+        packageName: 'Monthly Glow Package',
+        purchaseDate: new Date(2026, 0, 25), // Jan 25, 2026
+        expiryDate: new Date(2026, 1, 24), // Feb 24, 2026
+        price: 1450,
+        status: 'active',
+        treatments: [
+          {
+            treatmentId: 't1',
+            treatmentName: 'HydraFacial',
+            totalQuantity: 2,
+            completedQuantity: 1,
+            remainingQuantity: 1,
+            completedSessions: [
+              { bookingId: '002', date: new Date(2026, 1, 2), therapistName: 'Sarah Johnson' }
+            ]
+          },
+          {
+            treatmentId: 't6',
+            treatmentName: 'Luxury Dermaplaning Session',
+            totalQuantity: 1,
+            completedQuantity: 0,
+            remainingQuantity: 1,
+            completedSessions: []
+          },
+          {
+            treatmentId: 't5',
+            treatmentName: 'Skin Consultation',
+            totalQuantity: 1,
+            completedQuantity: 1,
+            remainingQuantity: 0,
+            completedSessions: [
+              { bookingId: '003', date: new Date(2026, 0, 26), therapistName: 'Thandi Mbele' }
+            ]
+          }
+        ]
+      },
+      {
+        id: 'cp-003',
+        clientId: 'C008',
+        clientName: 'Lisa Chen',
+        packageBundleId: 'pkg-003',
+        packageName: 'Starter Wellness Pack',
+        purchaseDate: new Date(2026, 0, 28), // Jan 28, 2026
+        expiryDate: new Date(2026, 2, 29), // March 29, 2026
+        price: 1600,
+        status: 'active',
+        treatments: [
+          {
+            treatmentId: 't1',
+            treatmentName: 'HydraFacial',
+            totalQuantity: 1,
+            completedQuantity: 1,
+            remainingQuantity: 0,
+            completedSessions: [
+              { bookingId: '009', date: new Date(2026, 1, 1), therapistName: 'Emily Brown' }
+            ]
+          },
+          {
+            treatmentId: 't2',
+            treatmentName: 'Microneedling',
+            totalQuantity: 1,
+            completedQuantity: 0,
+            remainingQuantity: 1,
+            completedSessions: []
+          },
+          {
+            treatmentId: 't7',
+            treatmentName: 'Ionic Foot Detox + Infrared Sauna Session',
+            totalQuantity: 1,
+            completedQuantity: 0,
+            remainingQuantity: 1,
+            completedSessions: []
+          }
+        ]
+      }
+    ];
+  }
+
+  getPackages(): PackageBundle[] {
+    return [...this.packages];
+  }
+
+  getPackage(id: string): PackageBundle | undefined {
+    return this.packages.find(p => p.id === id);
+  }
+
+  addPackage(packageBundle: PackageBundle): void {
+    this.packages.push(packageBundle);
+  }
+
+  updatePackage(id: string, updatedPackage: PackageBundle): void {
+    const index = this.packages.findIndex(p => p.id === id);
+    if (index !== -1) {
+      this.packages[index] = { ...updatedPackage };
+    }
+  }
+
+  deletePackage(id: string): void {
+    this.packages = this.packages.filter(p => p.id !== id);
+  }
+
+  getCustomerPackages(): CustomerPackage[] {
+    return [...this.customerPackages];
+  }
+
+  getCustomerPackagesByClientId(clientId: string): CustomerPackage[] {
+    return this.customerPackages.filter(cp => cp.clientId === clientId);
+  }
+
+  getCustomerPackagesByClientEmail(email: string): CustomerPackage[] {
+    // Map email to client ID based on mock data
+    const emailToClientId: { [key: string]: string } = {
+      'iggie@example.com': 'C001',
+      'sarah@example.com': 'C002',
+      'grace@example.com': 'C008' // Lisa Chen uses Grace's booking in mock
+    };
+    
+    const clientId = emailToClientId[email];
+    if (!clientId) return [];
+    
+    return this.customerPackages.filter(cp => cp.clientId === clientId && cp.status === 'active');
   }
 }

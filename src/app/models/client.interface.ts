@@ -1,3 +1,5 @@
+import { CustomerPackage } from './customer-package.interface';
+
 export interface Client {
   id: string;
   name: string;
@@ -14,4 +16,5 @@ export interface Client {
   }[];
   notes: string;
   status: 'active' | 'inactive';
+  activePackages?: CustomerPackage[];
 }

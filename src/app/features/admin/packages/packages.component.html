@@ -1,0 +1,90 @@
+<div class="packages-page">
+  <div class="page-header">
+    <h1>Treatment Packages</h1>
+    <p-button 
+      label="Create Package" 
+      icon="pi pi-plus" 
+      (onClick)="openAddDialog()"
+      styleClass="p-button-success">
+    </p-button>
+  </div>
+
+  <div class="packages-table" *ngIf="packages.length > 0">
+    <p-table 
+      [value]="packages" 
+      [tableStyle]="{'min-width': '50rem'}"
+      styleClass="p-datatable-sm">
+      <ng-template pTemplate="header">
+        <tr>
+          <th>Package Name</th>
+          <th>Treatments</th>
+          <th>Regular Price</th>
+          <th>Package Price</th>
+          <th>Savings</th>
+          <th>Validity</th>
+          <th>Status</th>
+          <th>Actions</th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-package>
+        <tr>
+          <td>
+            <strong>{{ package.name }}</strong>
+            <div class="package-description">{{ package.description }}</div>
+          </td>
+          <td>{{ formatTreatmentsSummary(package) }}</td>
+          <td>
+            <span class="regular-price">{{ formatCurrency(package.regularPrice) }}</span>
+          </td>
+          <td>
+            <span class="package-price">{{ formatCurrency(package.packagePrice) }}</span>
+          </td>
+          <td>
+            <span class="savings">
+              {{ formatCurrency(package.savings) }} ({{ formatSavingsPercentage(package) }}%)
+            </span>
+          </td>
+          <td>{{ package.validityDays }} days</td>
+          <td>
+            <p-badge 
+              [value]="getStatusLabel(package.isActive)" 
+              [severity]="getStatusBadgeSeverity(package.isActive)">
+            </p-badge>
+          </td>
+          <td>
+            <div class="action-buttons">
+              <p-button 
+                icon="pi pi-pencil" 
+                (onClick)="openEditDialog(package)"
+                styleClass="p-button-rounded p-button-text p-button-sm"
+                [pTooltip]="'Edit'">
+              </p-button>
+              <p-button 
+                icon="pi pi-trash" 
+                (onClick)="deletePackage(package)"
+                styleClass="p-button-rounded p-button-text p-button-danger p-button-sm"
+                [pTooltip]="'Delete'">
+              </p-button>
+            </div>
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </div>
+
+  <div class="empty-state" *ngIf="packages.length === 0">
+    <i class="pi pi-box" style="font-size: 4rem; color: #ccc;"></i>
+    <p>No packages created yet. Click 'Create Package' to get started.</p>
+  </div>
+
+  <app-package-form
+    [visible]="displayDialog"
+    [isEditMode]="isEditMode"
+    [packageData]="selectedPackage"
+    (onSave)="onPackageSaved($event)"
+    (onCancel)="onDialogCancel()">
+  </app-package-form>
+
+  <p-toast></p-toast>
+  <p-confirmDialog></p-confirmDialog>
+</div>
