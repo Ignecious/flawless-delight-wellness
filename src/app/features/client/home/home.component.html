@@ -61,7 +61,7 @@
         </div>
         <h3 class="treatment-name">{{ treatment.name }}</h3>
         <p class="treatment-price">{{ treatment.price }}</p>
-        <button class="btn-primary">Book Now</button>
+        <button class="btn-primary" (click)="navigateToBooking(treatment)">Book Now</button>
       </div>
     </div>
   </div>
