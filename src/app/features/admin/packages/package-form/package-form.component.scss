@@ -1,0 +1,193 @@
+.package-form {
+  .form-section {
+    margin-bottom: 2rem;
+    padding-bottom: 2rem;
+    border-bottom: 1px solid #e0e0e0;
+
+    &:last-child {
+      border-bottom: none;
+      padding-bottom: 0;
+      margin-bottom: 0;
+    }
+
+    h3 {
+      color: var(--primary-color);
+      font-size: 1.2rem;
+      margin-bottom: 1.5rem;
+      font-weight: 600;
+    }
+  }
+
+  .form-field {
+    margin-bottom: 1.5rem;
+
+    label {
+      display: block;
+      margin-bottom: 0.5rem;
+      font-weight: 500;
+      color: var(--text-dark);
+    }
+
+    small {
+      display: block;
+      margin-top: 0.25rem;
+      color: var(--text-light);
+      font-size: 0.85rem;
+
+      &.p-error {
+        color: #ef4444;
+        font-weight: 500;
+
+        i {
+          margin-right: 0.25rem;
+        }
+      }
+    }
+  }
+
+  .form-field-switch {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+
+    label {
+      font-weight: 500;
+      color: var(--text-dark);
+    }
+  }
+
+  .form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+  }
+
+  .required {
+    color: #ef4444;
+  }
+
+  .treatments-list {
+    margin-bottom: 1rem;
+  }
+
+  .treatment-row {
+    margin-bottom: 1rem;
+    padding: 1rem;
+    background: #f9f9f9;
+    border-radius: 6px;
+    border-left: 3px solid var(--primary-color);
+
+    .treatment-fields {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1.5fr auto;
+      gap: 1rem;
+      align-items: start;
+
+      .treatment-dropdown,
+      .treatment-quantity {
+        label {
+          display: block;
+          margin-bottom: 0.5rem;
+          font-size: 0.9rem;
+          font-weight: 500;
+          color: var(--text-dark);
+        }
+      }
+
+      .treatment-details {
+        display: flex;
+        flex-direction: column;
+        gap: 0.25rem;
+        padding-top: 1.8rem;
+        font-size: 0.85rem;
+
+        .detail-label {
+          font-weight: 500;
+          color: var(--text-light);
+          margin-right: 0.25rem;
+        }
+
+        span {
+          color: var(--text-dark);
+        }
+      }
+
+      button {
+        margin-top: 1.8rem;
+      }
+    }
+  }
+
+  .pricing-summary {
+    background: #f5f7f4;
+    padding: 1.5rem;
+    border-radius: 8px;
+    border: 2px solid var(--primary-light);
+
+    .price-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1rem;
+      font-size: 1.1rem;
+
+      &.savings-row {
+        padding-top: 1rem;
+        border-top: 2px solid var(--primary-color);
+        margin-bottom: 0;
+      }
+
+      .price-label {
+        font-weight: 500;
+        color: var(--text-dark);
+      }
+
+      .regular-price {
+        text-decoration: line-through;
+        color: var(--text-light);
+        font-size: 1rem;
+      }
+
+      .savings-amount {
+        color: var(--primary-color);
+        font-weight: 700;
+        font-size: 1.2rem;
+      }
+    }
+
+    .form-field {
+      margin: 1.5rem 0;
+    }
+  }
+
+  .w-full {
+    width: 100%;
+  }
+}
+
+.dialog-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.75rem;
+}
+
+@media (max-width: 768px) {
+  .package-form {
+    .form-row {
+      grid-template-columns: 1fr;
+    }
+
+    .treatment-row .treatment-fields {
+      grid-template-columns: 1fr;
+      
+      .treatment-details {
+        padding-top: 0;
+      }
+
+      button {
+        margin-top: 0;
+        justify-self: end;
+      }
+    }
+  }
+}

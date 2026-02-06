@@ -6,12 +6,14 @@ import { ButtonModule } from 'primeng/button';
 import { CardModule } from 'primeng/card';
 import { BadgeModule } from 'primeng/badge';
 import { TableModule } from 'primeng/table';
+import { ProgressBarModule } from 'primeng/progressbar';
 import { InputTextareaModule } from 'primeng/inputtextarea';
 import { ToastModule } from 'primeng/toast';
 import { MessageService } from 'primeng/api';
 import { Client } from '../../../../models/client.interface';
 import { AdminDataService } from '../../../../services/admin-data.service';
 import { AdminBooking } from '../../../../models/admin-booking.interface';
+import { CustomerPackage } from '../../../../models/customer-package.interface';
 
 @Component({
   selector: 'app-client-detail',
@@ -24,6 +26,7 @@ import { AdminBooking } from '../../../../models/admin-booking.interface';
     CardModule,
     BadgeModule,
     TableModule,
+    ProgressBarModule,
     InputTextareaModule,
     ToastModule
   ],
@@ -38,6 +41,7 @@ export class ClientDetailComponent implements OnInit, OnChanges {
   @Output() onNotesUpdated = new EventEmitter<Client>();
 
   clientBookings: AdminBooking[] = [];
+  activePackages: CustomerPackage[] = [];
   editableNotes = '';
 
   constructor(
@@ -46,25 +50,33 @@ export class ClientDetailComponent implements OnInit, OnChanges {
   ) {}
 
   ngOnInit(): void {
-    this.loadClientBookings();
-    this.editableNotes = this.client.notes;
+    this.loadClientData();
   }
 
   ngOnChanges(): void {
     if (this.client) {
-      this.loadClientBookings();
-      this.editableNotes = this.client.notes;
+      this.loadClientData();
     }
   }
 
-  loadClientBookings(): void {
+  loadClientData(): void {
     if (!this.client) return;
     
+    this.loadClientBookings();
+    this.loadActivePackages();
+    this.editableNotes = this.client.notes;
+  }
+
+  loadClientBookings(): void {
     const allBookings = this.dataService.getBookings();
     this.clientBookings = allBookings
       .filter(b => b.customer.email === this.client.email)
       .sort((a, b) => b.date.getTime() - a.date.getTime())
       .slice(0, 10);
+  }
+
+  loadActivePackages(): void {
+    this.activePackages = this.dataService.getCustomerPackagesByClientEmail(this.client.email);
   }
 
   closeDialog(): void {
@@ -125,5 +137,50 @@ export class ClientDetailComponent implements OnInit, OnChanges {
       summary: 'Coming Soon',
       detail: 'Appointment booking will be available soon'
     });
+  }
+
+  // Package-related methods
+  calculateDaysRemaining(expiryDate: Date): number {
+    const today = new Date();
+    const expiry = new Date(expiryDate);
+    const diffTime = expiry.getTime() - today.getTime();
+    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+    return Math.max(0, diffDays);
+  }
+
+  calculateProgressPercentage(pkg: CustomerPackage): number {
+    const totalTreatments = pkg.treatments.reduce((sum, t) => sum + t.totalQuantity, 0);
+    const completedTreatments = pkg.treatments.reduce((sum, t) => sum + t.completedQuantity, 0);
+    if (totalTreatments === 0) return 0;
+    return Math.round((completedTreatments / totalTreatments) * 100);
+  }
+
+  getTotalCompletedTreatments(pkg: CustomerPackage): number {
+    return pkg.treatments.reduce((sum, t) => sum + t.completedQuantity, 0);
+  }
+
+  getTotalTreatments(pkg: CustomerPackage): number {
+    return pkg.treatments.reduce((sum, t) => sum + t.totalQuantity, 0);
+  }
+
+  getExpiryWarningClass(daysRemaining: number): string {
+    if (daysRemaining < 30) return 'expiry-warning';
+    return '';
+  }
+
+  formatPackageDate(date: Date): string {
+    return new Intl.DateTimeFormat('en-ZA', { 
+      month: 'short', 
+      day: 'numeric', 
+      year: 'numeric' 
+    }).format(new Date(date));
+  }
+
+  hasCompletedTreatments(pkg: CustomerPackage): boolean {
+    return pkg.treatments.some(t => t.completedQuantity > 0);
+  }
+
+  hasRemainingTreatments(pkg: CustomerPackage): boolean {
+    return pkg.treatments.some(t => t.remainingQuantity > 0);
   }
 }

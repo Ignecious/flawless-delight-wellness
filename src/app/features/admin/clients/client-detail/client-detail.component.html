@@ -83,7 +83,72 @@
       </div>
     </section>
 
-    <!-- Section 3: Booking History -->
+    <!-- Section 3: Active Packages -->
+    <section class="active-packages-section" *ngIf="activePackages.length > 0">
+      <h3>Active Packages</h3>
+      
+      <div class="packages-list">
+        <div class="active-package-card" *ngFor="let pkg of activePackages">
+          <div class="package-header">
+            <h4>📦 {{ pkg.packageName }}</h4>
+            <p-badge 
+              [value]="pkg.status" 
+              severity="success"
+            ></p-badge>
+          </div>
+          
+          <div class="package-info">
+            <p><strong>Purchased:</strong> {{ formatPackageDate(pkg.purchaseDate) }}</p>
+            <p [class]="getExpiryWarningClass(calculateDaysRemaining(pkg.expiryDate))">
+              <strong>Expires:</strong> {{ formatPackageDate(pkg.expiryDate) }} 
+              ({{ calculateDaysRemaining(pkg.expiryDate) }} days remaining)
+            </p>
+          </div>
+          
+          <div class="progress-section">
+            <div class="progress-label">
+              Progress: {{ getTotalCompletedTreatments(pkg) }}/{{ getTotalTreatments(pkg) }} completed
+            </div>
+            <p-progressBar 
+              [value]="calculateProgressPercentage(pkg)"
+              [showValue]="false"
+              styleClass="package-progress">
+            </p-progressBar>
+          </div>
+          
+          <div class="completed-treatments" *ngIf="hasCompletedTreatments(pkg)">
+            <h5>Completed Treatments:</h5>
+            <ul>
+              <ng-container *ngFor="let treatment of pkg.treatments">
+                <li *ngFor="let session of treatment.completedSessions">
+                  <span class="checkmark">✅</span>
+                  <span>{{ treatment.treatmentName }} - {{ formatPackageDate(session.date) }} ({{ session.therapistName }})</span>
+                </li>
+              </ng-container>
+            </ul>
+          </div>
+          
+          <div class="remaining-treatments" *ngIf="hasRemainingTreatments(pkg)">
+            <h5>Remaining Treatments:</h5>
+            <ul>
+              <li *ngFor="let treatment of pkg.treatments">
+                <ng-container *ngIf="treatment.remainingQuantity > 0">
+                  <span class="calendar-icon">📅</span>
+                  <span>{{ treatment.remainingQuantity }}x {{ treatment.treatmentName }}</span>
+                </ng-container>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="no-packages-section" *ngIf="activePackages.length === 0">
+      <h3>Active Packages</h3>
+      <p class="no-data">No active packages</p>
+    </section>
+
+    <!-- Section 4: Booking History -->
     <section class="booking-history-section">
       <h3>Booking History</h3>
       <div class="table-wrapper">
@@ -125,7 +190,7 @@
       </div>
     </section>
 
-    <!-- Section 4: Favorite Treatments -->
+    <!-- Section 5: Favorite Treatments -->
     <section class="favorite-treatments-section">
       <h3>Favorite Treatments</h3>
       <div class="treatments-list" *ngIf="client.favoriteTreatments.length > 0; else noTreatments">
@@ -139,7 +204,7 @@
       </ng-template>
     </section>
 
-    <!-- Section 5: Notes -->
+    <!-- Section 6: Notes -->
     <section class="notes-section">
       <h3>Notes</h3>
       <textarea 

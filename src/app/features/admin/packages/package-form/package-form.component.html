@@ -1,0 +1,229 @@
+<p-dialog 
+  [header]="getDialogHeader()"
+  [(visible)]="visible"
+  [modal]="true"
+  [style]="{width: '80vw'}"
+  [breakpoints]="{'960px': '95vw'}"
+  [draggable]="false"
+  [resizable]="false">
+  
+  <form [formGroup]="packageForm" class="package-form">
+    <!-- Basic Information Section -->
+    <div class="form-section">
+      <h3>Basic Information</h3>
+      
+      <div class="form-field">
+        <label for="name">Package Name <span class="required">*</span></label>
+        <input 
+          type="text" 
+          id="name"
+          pInputText 
+          formControlName="name"
+          placeholder="e.g., Ultimate Transformation Bundle"
+          class="w-full">
+        <small class="p-error" *ngIf="packageForm.get('name')?.invalid && packageForm.get('name')?.touched">
+          Package name is required
+        </small>
+      </div>
+
+      <div class="form-field">
+        <label for="description">Description</label>
+        <textarea 
+          id="description"
+          pInputTextarea 
+          formControlName="description"
+          placeholder="Describe what's included in this package"
+          [rows]="3"
+          class="w-full">
+        </textarea>
+      </div>
+    </div>
+
+    <!-- Treatments Selection Section -->
+    <div class="form-section">
+      <h3>Treatments Selection <span class="required">* (minimum 2)</span></h3>
+      
+      <div formArrayName="treatments" class="treatments-list">
+        <div *ngFor="let treatment of treatments.controls; let i = index" 
+             [formGroupName]="i" 
+             class="treatment-row">
+          <div class="treatment-fields">
+            <div class="treatment-dropdown">
+              <label>Treatment</label>
+              <p-dropdown
+                [options]="treatmentOptions"
+                formControlName="treatmentId"
+                placeholder="Select treatment"
+                optionLabel="label"
+                optionValue="value"
+                [filter]="true"
+                filterBy="label"
+                class="w-full">
+              </p-dropdown>
+            </div>
+
+            <div class="treatment-quantity">
+              <label>Quantity</label>
+              <p-inputNumber
+                formControlName="quantity"
+                [showButtons]="true"
+                [min]="1"
+                [max]="10"
+                [step]="1"
+                class="w-full">
+              </p-inputNumber>
+            </div>
+
+            <div class="treatment-details" *ngIf="treatment.get('treatmentId')?.value">
+              <span class="detail-label">Duration:</span> 
+              <span>{{ getTreatmentDetails(treatment.get('treatmentId')?.value)?.duration }} min</span>
+              <span class="detail-label">Price:</span>
+              <span>{{ formatPrice(getTreatmentDetails(treatment.get('treatmentId')?.value)?.price || 0) }}</span>
+            </div>
+
+            <button 
+              type="button"
+              pButton
+              icon="pi pi-trash"
+              class="p-button-rounded p-button-text p-button-danger"
+              (click)="removeTreatmentRow(i)"
+              [disabled]="treatments.length <= 2"
+              pTooltip="Remove treatment">
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <button 
+        type="button"
+        pButton 
+        label="Add Treatment" 
+        icon="pi pi-plus"
+        class="p-button-outlined p-button-sm"
+        (click)="addTreatmentRow()"
+        [disabled]="treatments.length >= 10">
+      </button>
+
+      <small class="p-error" *ngIf="hasDuplicateTreatments()">
+        <i class="pi pi-exclamation-triangle"></i> Duplicate treatments are not allowed
+      </small>
+      <small class="p-error" *ngIf="treatments.invalid && treatments.touched && !hasDuplicateTreatments()">
+        <i class="pi pi-exclamation-triangle"></i> At least 2 treatments are required
+      </small>
+    </div>
+
+    <!-- Pricing Section -->
+    <div class="form-section">
+      <h3>Pricing</h3>
+      
+      <div class="pricing-summary">
+        <div class="price-row">
+          <span class="price-label">Regular Price:</span>
+          <span class="regular-price">{{ formatCurrency(calculateRegularPrice()) }}</span>
+        </div>
+
+        <div class="form-field">
+          <label for="packagePrice">Package Price <span class="required">*</span></label>
+          <p-inputNumber
+            id="packagePrice"
+            formControlName="packagePrice"
+            mode="currency"
+            currency="ZAR"
+            locale="en-ZA"
+            [minFractionDigits]="0"
+            [maxFractionDigits]="0"
+            placeholder="Enter discounted price"
+            class="w-full">
+          </p-inputNumber>
+          <small class="p-error" *ngIf="packageForm.get('packagePrice')?.invalid && packageForm.get('packagePrice')?.touched">
+            Package price is required and must be greater than 0
+          </small>
+          <small class="p-error" *ngIf="!validatePackagePrice() && packageForm.get('packagePrice')?.value">
+            <i class="pi pi-exclamation-triangle"></i> Package price must be less than regular price
+          </small>
+        </div>
+
+        <div class="price-row savings-row">
+          <span class="price-label">Savings:</span>
+          <span class="savings-amount">
+            {{ formatCurrency(calculateSavings()) }} ({{ calculateSavingsPercentage() }}%)
+          </span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Terms Section -->
+    <div class="form-section">
+      <h3>Terms</h3>
+      
+      <div class="form-row">
+        <div class="form-field">
+          <label for="validityDays">Validity Days <span class="required">*</span></label>
+          <p-inputNumber
+            id="validityDays"
+            formControlName="validityDays"
+            [showButtons]="true"
+            [min]="1"
+            [max]="365"
+            [step]="1"
+            suffix=" days"
+            placeholder="e.g., 90"
+            class="w-full">
+          </p-inputNumber>
+          <small>Number of days the package is valid after purchase</small>
+          <small class="p-error" *ngIf="packageForm.get('validityDays')?.invalid && packageForm.get('validityDays')?.touched">
+            Validity must be between 1 and 365 days
+          </small>
+        </div>
+
+        <div class="form-field">
+          <label for="spacingDays">Spacing Days <span class="required">*</span></label>
+          <p-inputNumber
+            id="spacingDays"
+            formControlName="spacingDays"
+            [showButtons]="true"
+            [min]="0"
+            [max]="90"
+            [step]="1"
+            suffix=" days"
+            placeholder="e.g., 14"
+            class="w-full">
+          </p-inputNumber>
+          <small>Minimum days between treatments</small>
+          <small class="p-error" *ngIf="packageForm.get('spacingDays')?.invalid && packageForm.get('spacingDays')?.touched">
+            Spacing must be between 0 and 90 days
+          </small>
+        </div>
+      </div>
+    </div>
+
+    <!-- Status Section -->
+    <div class="form-section">
+      <h3>Status</h3>
+      
+      <div class="form-field-switch">
+        <label for="isActive">Active Package</label>
+        <p-inputSwitch id="isActive" formControlName="isActive"></p-inputSwitch>
+      </div>
+    </div>
+  </form>
+
+  <ng-template pTemplate="footer">
+    <div class="dialog-footer">
+      <button 
+        pButton 
+        label="Cancel" 
+        icon="pi pi-times"
+        class="p-button-text"
+        (click)="cancel()">
+      </button>
+      <button 
+        pButton 
+        label="Save" 
+        icon="pi pi-check"
+        class="p-button-success"
+        (click)="save()">
+      </button>
+    </div>
+  </ng-template>
+</p-dialog>
