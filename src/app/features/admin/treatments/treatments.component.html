@@ -1,0 +1,124 @@
+<div class="treatments-container">
+  <p-toast />
+  <p-confirmDialog />
+  
+  <div class="treatments-header">
+    <h2>Treatments</h2>
+    <p-button 
+      label="Add Treatment" 
+      icon="pi pi-plus" 
+      (onClick)="openAddDialog()"
+      styleClass="add-button"
+    />
+  </div>
+
+  <div class="treatments-table">
+    <p-table [value]="treatments" [tableStyle]="{ 'min-width': '50rem' }">
+      <ng-template pTemplate="header">
+        <tr>
+          <th>Name</th>
+          <th>Duration (min)</th>
+          <th>Price</th>
+          <th>Actions</th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-treatment>
+        <tr>
+          <td>{{ treatment.name }}</td>
+          <td>{{ treatment.duration }}</td>
+          <td>{{ formatPrice(treatment.price) }}</td>
+          <td>
+            <div class="action-buttons">
+              <p-button 
+                icon="pi pi-pencil" 
+                [rounded]="true" 
+                [text]="true" 
+                severity="warning"
+                (onClick)="openEditDialog(treatment)"
+                pTooltip="Edit"
+              />
+              <p-button 
+                icon="pi pi-trash" 
+                [rounded]="true" 
+                [text]="true" 
+                severity="danger"
+                (onClick)="deleteTreatment(treatment)"
+                pTooltip="Delete"
+              />
+            </div>
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </div>
+
+  <!-- Add/Edit Treatment Dialog -->
+  <p-dialog 
+    [(visible)]="displayDialog" 
+    [header]="getDialogHeader()" 
+    [modal]="true" 
+    [style]="{ width: '500px' }"
+  >
+    <form [formGroup]="treatmentForm" class="treatment-form">
+      <div class="form-field">
+        <label for="name">Treatment Name *</label>
+        <input 
+          pInputText 
+          id="name" 
+          formControlName="name" 
+          placeholder="Enter treatment name"
+          class="w-full"
+        />
+        <small class="p-error" *ngIf="treatmentForm.get('name')?.invalid && treatmentForm.get('name')?.touched">
+          Treatment name is required
+        </small>
+      </div>
+
+      <div class="form-field">
+        <label for="duration">Duration (minutes) *</label>
+        <p-inputNumber 
+          inputId="duration"
+          formControlName="duration" 
+          [min]="1"
+          [step]="15"
+          placeholder="Enter duration"
+          styleClass="w-full"
+        />
+        <small class="p-error" *ngIf="treatmentForm.get('duration')?.invalid && treatmentForm.get('duration')?.touched">
+          Duration is required and must be greater than 0
+        </small>
+      </div>
+
+      <div class="form-field">
+        <label for="price">Price (Rands) *</label>
+        <p-inputNumber 
+          inputId="price"
+          formControlName="price" 
+          [min]="0"
+          mode="currency"
+          currency="ZAR"
+          locale="en-ZA"
+          placeholder="Enter price (0 for FREE)"
+          styleClass="w-full"
+        />
+        <small class="p-error" *ngIf="treatmentForm.get('price')?.invalid && treatmentForm.get('price')?.touched">
+          Price is required and must be 0 or greater
+        </small>
+        <small class="form-hint">Enter 0 for free treatments</small>
+      </div>
+    </form>
+
+    <ng-template pTemplate="footer">
+      <p-button 
+        label="Cancel" 
+        [text]="true" 
+        (onClick)="displayDialog = false"
+      />
+      <p-button 
+        [label]="isEditMode ? 'Update' : 'Add'" 
+        (onClick)="saveTreatment()"
+        [disabled]="treatmentForm.invalid"
+      />
+    </ng-template>
+  </p-dialog>
+</div>

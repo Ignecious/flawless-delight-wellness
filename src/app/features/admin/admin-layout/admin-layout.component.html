@@ -1,0 +1,37 @@
+<div class="admin-container">
+  <!-- Sidebar -->
+  <aside class="sidebar" [class.collapsed]="!sidebarOpen">
+    <div class="sidebar-header">
+      <h2 class="logo">FDW Admin</h2>
+      <button class="toggle-btn mobile-only" (click)="toggleSidebar()">
+        <i class="pi pi-times"></i>
+      </button>
+    </div>
+
+    <nav class="sidebar-nav">
+      <a
+        *ngFor="let item of menuItems"
+        [routerLink]="item.route"
+        routerLinkActive="active"
+        class="nav-item"
+      >
+        <i [class]="item.icon"></i>
+        <span class="nav-label">{{ item.label }}</span>
+      </a>
+    </nav>
+  </aside>
+
+  <!-- Mobile menu toggle button -->
+  <button class="mobile-toggle mobile-only" (click)="toggleSidebar()" *ngIf="!sidebarOpen">
+    <i class="pi pi-bars"></i>
+  </button>
+
+  <!-- Content Area -->
+  <main class="content-area">
+    <router-outlet></router-outlet>
+  </main>
+</div>
+
+<!-- Global Toast and Confirm Dialog -->
+<p-toast></p-toast>
+<p-confirmDialog></p-confirmDialog>
