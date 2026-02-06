@@ -1,0 +1,246 @@
+<div class="bookings-container">
+  <p-toast />
+  <p-confirmDialog />
+  
+  <div class="bookings-header">
+    <h2>Bookings</h2>
+    <div class="filter-section">
+      <label for="statusFilter">Filter by Status:</label>
+      <p-dropdown 
+        inputId="statusFilter"
+        [options]="statusFilters" 
+        [(ngModel)]="selectedStatus" 
+        optionLabel="label"
+        (onChange)="onStatusFilterChange()"
+        [style]="{ 'min-width': '150px' }"
+      />
+    </div>
+  </div>
+
+  <div class="bookings-table">
+    <p-table 
+      [value]="filteredBookings" 
+      [tableStyle]="{ 'min-width': '50rem' }"
+      [paginator]="true"
+      [rows]="10"
+      [rowsPerPageOptions]="[10, 25, 50]"
+    >
+      <ng-template pTemplate="header">
+        <tr>
+          <th pSortableColumn="date">Date <p-sortIcon field="date" /></th>
+          <th>Time</th>
+          <th>Customer</th>
+          <th>Treatment</th>
+          <th>Therapist</th>
+          <th>Status</th>
+          <th>Actions</th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-booking>
+        <tr>
+          <td>{{ booking.date | date: 'mediumDate' }}</td>
+          <td>{{ booking.timeSlot }}</td>
+          <td>{{ booking.customer.name }}</td>
+          <td>{{ booking.treatment.name }}</td>
+          <td>{{ booking.therapist.name }}</td>
+          <td>
+            <p-badge 
+              [value]="booking.status" 
+              [severity]="getStatusSeverity(booking.status)"
+            />
+          </td>
+          <td>
+            <div class="action-buttons">
+              <p-button 
+                icon="pi pi-eye" 
+                [rounded]="true" 
+                [text]="true" 
+                (onClick)="viewDetails(booking)"
+                pTooltip="View Details"
+              />
+              <p-button 
+                icon="pi pi-pencil" 
+                [rounded]="true" 
+                [text]="true" 
+                severity="warning"
+                (onClick)="editBooking(booking)"
+                pTooltip="Edit"
+              />
+              <p-button 
+                icon="pi pi-times" 
+                [rounded]="true" 
+                [text]="true" 
+                severity="danger"
+                (onClick)="cancelBooking(booking)"
+                pTooltip="Cancel"
+              />
+            </div>
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </div>
+
+  <!-- View Details Dialog -->
+  <p-dialog 
+    [(visible)]="displayDetailsDialog" 
+    [header]="'Booking Details - #' + selectedBooking?.id" 
+    [modal]="true" 
+    [style]="{ width: '500px' }"
+  >
+    <div class="booking-details" *ngIf="selectedBooking">
+      <div class="detail-row">
+        <span class="label">Booking ID:</span>
+        <span class="value">{{ selectedBooking.id }}</span>
+      </div>
+      <div class="detail-row">
+        <span class="label">Date:</span>
+        <span class="value">{{ selectedBooking.date | date: 'fullDate' }}</span>
+      </div>
+      <div class="detail-row">
+        <span class="label">Time:</span>
+        <span class="value">{{ selectedBooking.timeSlot }}</span>
+      </div>
+      <div class="detail-row">
+        <span class="label">Treatment:</span>
+        <span class="value">{{ selectedBooking.treatment.name }}</span>
+      </div>
+      <div class="detail-row">
+        <span class="label">Duration:</span>
+        <span class="value">{{ selectedBooking.treatment.duration }} minutes</span>
+      </div>
+      <div class="detail-row">
+        <span class="label">Price:</span>
+        <span class="value">
+          {{ selectedBooking.treatment.price === 0 ? 'FREE' : 'R' + selectedBooking.treatment.price }}
+        </span>
+      </div>
+      <div class="detail-row">
+        <span class="label">Customer:</span>
+        <span class="value">{{ selectedBooking.customer.name }}</span>
+      </div>
+      <div class="detail-row">
+        <span class="label">Phone:</span>
+        <span class="value">{{ selectedBooking.customer.phone }}</span>
+      </div>
+      <div class="detail-row">
+        <span class="label">Email:</span>
+        <span class="value">{{ selectedBooking.customer.email }}</span>
+      </div>
+      <div class="detail-row">
+        <span class="label">Therapist:</span>
+        <span class="value">{{ selectedBooking.therapist.name }}</span>
+      </div>
+      <div class="detail-row">
+        <span class="label">Status:</span>
+        <span class="value">
+          <p-badge 
+            [value]="selectedBooking.status" 
+            [severity]="getStatusSeverity(selectedBooking.status)"
+          />
+        </span>
+      </div>
+      <div class="detail-row">
+        <span class="label">Created:</span>
+        <span class="value">{{ selectedBooking.createdAt | date: 'medium' }}</span>
+      </div>
+    </div>
+  </p-dialog>
+
+  <!-- Edit Booking Dialog -->
+  <p-dialog 
+    [(visible)]="displayEditDialog" 
+    [header]="'Edit Booking - #' + selectedBooking?.id" 
+    [modal]="true" 
+    [style]="{ width: '500px' }"
+  >
+    <form [formGroup]="editForm" class="edit-form">
+      <div class="form-field">
+        <label for="date">Date *</label>
+        <p-calendar 
+          inputId="date"
+          formControlName="date" 
+          dateFormat="yy-mm-dd"
+          [showIcon]="true"
+          [style]="{ width: '100%' }"
+        />
+        <small class="p-error" *ngIf="editForm.get('date')?.invalid && editForm.get('date')?.touched">
+          Date is required
+        </small>
+      </div>
+
+      <div class="form-field">
+        <label for="timeSlot">Time Slot *</label>
+        <p-dropdown 
+          inputId="timeSlot"
+          formControlName="timeSlot" 
+          [options]="timeSlots"
+          placeholder="Select time"
+          [style]="{ width: '100%' }"
+        />
+        <small class="p-error" *ngIf="editForm.get('timeSlot')?.invalid && editForm.get('timeSlot')?.touched">
+          Time slot is required
+        </small>
+      </div>
+
+      <div class="form-field">
+        <label for="treatment">Treatment *</label>
+        <p-dropdown 
+          inputId="treatment"
+          formControlName="treatment" 
+          [options]="treatments"
+          optionLabel="name"
+          placeholder="Select treatment"
+          [style]="{ width: '100%' }"
+        />
+        <small class="p-error" *ngIf="editForm.get('treatment')?.invalid && editForm.get('treatment')?.touched">
+          Treatment is required
+        </small>
+      </div>
+
+      <div class="form-field">
+        <label for="therapist">Therapist *</label>
+        <p-dropdown 
+          inputId="therapist"
+          formControlName="therapist" 
+          [options]="therapists"
+          optionLabel="name"
+          placeholder="Select therapist"
+          [style]="{ width: '100%' }"
+        />
+        <small class="p-error" *ngIf="editForm.get('therapist')?.invalid && editForm.get('therapist')?.touched">
+          Therapist is required
+        </small>
+      </div>
+
+      <div class="form-field">
+        <label for="status">Status *</label>
+        <p-dropdown 
+          inputId="status"
+          formControlName="status" 
+          [options]="statusOptions"
+          optionLabel="label"
+          optionValue="value"
+          placeholder="Select status"
+          [style]="{ width: '100%' }"
+        />
+        <small class="p-error" *ngIf="editForm.get('status')?.invalid && editForm.get('status')?.touched">
+          Status is required
+        </small>
+      </div>
+    </form>
+
+    <ng-template pTemplate="footer">
+      <p-button 
+        label="Cancel" 
+        [text]="true" 
+        (onClick)="displayEditDialog = false"
+      />
+      <p-button 
+        label="Save" 
+        (onClick)="saveBooking()"
+        [disabled]="editForm.invalid"
+      />
+    </ng-template>
+  </p-dialog>
+</div>
