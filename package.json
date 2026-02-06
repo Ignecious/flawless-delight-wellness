@@ -1,1 +1,30 @@
-{\n  "name": "flawless-delight-wellness",\n  "version": "0.0.1",\n  "private": true,\n  "scripts": {\n    "ng": "ng",\n    "build": "ng build",\n    "watch": "ng serve",\n    "test": "ng test"\n  },\n  "dependencies": {\n    "@angular/core": "^17.0.0",\n    "@angular/common": "^17.0.0",\n    "@angular/compiler": "^17.0.0",\n    "@angular/platform-browser": "^17.0.0",\n    "@angular/platform-browser-dynamic": "^17.0.0",\n    "@angular/router": "^17.0.0",\n    "@angular/material": "latest",\n    "primeng": "latest",\n    "rxjs": "^7.0.0",\n    "zone.js": "^0.14.0"\n  },\n  "devDependencies": {\n    "@angular/cli": "^17.0.0",\n    "@types/node": "^16.0.0",\n    "typescript": "^5.0.0"\n  }\n}
+{
+  "name": "flawless-delight-wellness",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "ng": "ng",
+    "build": "ng build",
+    "serve": "ng serve",
+    "test": "ng test"
+  },
+  "dependencies": {
+    "@angular/animations": "~19.2.18",
+    "@angular/common": "~19.2.18",
+    "@angular/compiler": "~19.2.18",
+    "@angular/core": "~19.2.18",
+    "@angular/platform-browser": "~19.2.18",
+    "@angular/platform-browser-dynamic": "~19.2.18",
+    "@angular/router": "~19.2.18",
+    "rxjs": "^7.8.0",
+    "tslib": "^2.3.0",
+    "zone.js": "^0.15.0"
+  },
+  "devDependencies": {
+    "@angular-devkit/build-angular": "~19.2.0",
+    "@angular/cli": "~19.2.0",
+    "@angular/compiler-cli": "~19.2.18",
+    "@types/node": "^20.0.0",
+    "typescript": "~5.7.0"
+  }
+}
