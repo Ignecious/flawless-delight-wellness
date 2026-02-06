@@ -480,10 +480,11 @@ export class AdminDataService {
 
   getCustomerPackagesByClientEmail(email: string): CustomerPackage[] {
     // Map email to client ID based on mock data
+    // Note: Grace Mokoena's email is used for Lisa Chen's package data in the mock
     const emailToClientId: { [key: string]: string } = {
       'iggie@example.com': 'C001',
       'sarah@example.com': 'C002',
-      'grace@example.com': 'C008' // Lisa Chen uses Grace's booking in mock
+      'grace@example.com': 'C008' // Grace's email maps to Lisa Chen's client record
     };
     
     const clientId = emailToClientId[email];

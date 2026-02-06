@@ -169,7 +169,7 @@ export class ClientDetailComponent implements OnInit, OnChanges {
   }
 
   formatPackageDate(date: Date): string {
-    return new Intl.DateTimeFormat('en-US', { 
+    return new Intl.DateTimeFormat('en-ZA', { 
       month: 'short', 
       day: 'numeric', 
       year: 'numeric' 
