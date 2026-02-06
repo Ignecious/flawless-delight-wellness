@@ -74,11 +74,11 @@ export class BookServiceComponent implements OnInit {
     const slots: string[] = [];
     for (let hour = 9; hour <= 18; hour++) {
       for (let minute = 0; minute < 60; minute += 30) {
-        const period = hour >= 12 ? 'PM' : 'AM';
-        const displayHour = hour > 12 ? hour - 12 : hour === 0 ? 12 : hour;
-        const displayMinute = minute.toString().padStart(2, '0');
-        
         if (hour === 18 && minute > 0) break; // Stop after 6:00 PM
+        
+        const period = hour >= 12 ? 'PM' : 'AM';
+        const displayHour = hour > 12 ? hour - 12 : hour;
+        const displayMinute = minute.toString().padStart(2, '0');
         
         slots.push(`${displayHour}:${displayMinute} ${period}`);
       }
