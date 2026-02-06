@@ -3,7 +3,7 @@
 Mock UI for the Flawless Delight Wellness digital booking platform.
 
 ## Tech Stack
-- Angular 17
+- Angular 19.2.18 (with security patches)
 - TypeScript
 - SCSS
 - Standalone Components
@@ -29,6 +29,7 @@ Mock UI for the Flawless Delight Wellness digital booking platform.
 - ✅ Top treatments showcase
 - ✅ Personalized skincare section
 - ✅ Mobile-friendly design
+- ✅ Security patched (Angular 19.2.18)
 
 ## Project Structure
 ```
@@ -42,3 +43,10 @@ src/
 ├── assets/
 └── styles.scss
 ```
+
+## Security
+This project uses Angular 19.2.18 which includes patches for:
+- XSRF Token Leakage vulnerabilities
+- XSS vulnerabilities via unsanitized SVG attributes
+- Stored XSS vulnerabilities
+
