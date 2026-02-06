@@ -102,9 +102,14 @@ export class TreatmentsComponent implements OnInit {
         });
         console.log('Treatment updated:', this.selectedTreatment.id);
       } else {
-        // Add new treatment
+        // Add new treatment - generate ID based on highest existing ID
+        const maxId = this.treatments.reduce((max, t) => {
+          const num = parseInt(t.id.substring(1));
+          return num > max ? num : max;
+        }, 0);
+        
         const newTreatment: AdminTreatment = {
-          id: 't' + (this.treatments.length + 1),
+          id: 't' + (maxId + 1),
           name: formValue.name,
           duration: formValue.duration,
           price: formValue.price
