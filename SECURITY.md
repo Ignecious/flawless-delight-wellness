@@ -41,11 +41,13 @@ This document provides a security assessment of the application based on known v
 ✅ Renders static HTML content with Angular template syntax
 ✅ Displays images from external URLs (Unsplash)
 ✅ Uses CSS for styling with SCSS
+✅ Uses system font stack for typography (no external font dependencies)
 ✅ Uses Angular's safe template interpolation (`{{ }}`)
 ✅ Uses Angular's safe property binding (`[src]`, `[alt]`)
 
 ### What This Application Does NOT Do
 ❌ No HTTP requests (no HttpClient usage)
+❌ No external font loading (uses system fonts)
 ❌ No user input processing
 ❌ No form submissions
 ❌ No SVG rendering with scripts

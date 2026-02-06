@@ -7,6 +7,7 @@ Mock UI for the Flawless Delight Wellness digital booking platform built with An
 - TypeScript 5.2.x
 - SCSS
 - Standalone Components
+- System Font Stack (no external dependencies)
 
 ## Getting Started
 
