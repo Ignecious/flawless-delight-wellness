@@ -7,6 +7,7 @@ import { CalendarComponent } from './features/admin/calendar/calendar.component'
 import { BookingsComponent } from './features/admin/bookings/bookings.component';
 import { TreatmentsComponent } from './features/admin/treatments/treatments.component';
 import { TherapistsComponent } from './features/admin/therapists/therapists.component';
+import { ClientsComponent } from './features/admin/clients/clients.component';
 
 export const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -20,7 +21,8 @@ export const routes: Routes = [
       { path: 'calendar', component: CalendarComponent },
       { path: 'bookings', component: BookingsComponent },
       { path: 'treatments', component: TreatmentsComponent },
-      { path: 'therapists', component: TherapistsComponent }
+      { path: 'therapists', component: TherapistsComponent },
+      { path: 'clients', component: ClientsComponent }
     ]
   },
   { path: '**', redirectTo: '' }

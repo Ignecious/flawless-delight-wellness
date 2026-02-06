@@ -25,7 +25,8 @@ export class AdminLayoutComponent {
     { label: 'Calendar', icon: 'pi pi-calendar', route: '/admin/calendar' },
     { label: 'Bookings', icon: 'pi pi-list', route: '/admin/bookings' },
     { label: 'Treatments', icon: 'pi pi-briefcase', route: '/admin/treatments' },
-    { label: 'Therapists', icon: 'pi pi-users', route: '/admin/therapists' }
+    { label: 'Therapists', icon: 'pi pi-users', route: '/admin/therapists' },
+    { label: 'Clients', icon: 'pi pi-user', route: '/admin/clients' }
   ];
 
   toggleSidebar() {

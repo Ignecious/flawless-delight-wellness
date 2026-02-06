@@ -1,0 +1,273 @@
+.dialog-header {
+  h2 {
+    margin: 0;
+    font-size: 1.5rem;
+    color: var(--text-dark);
+  }
+}
+
+.client-detail-content {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+
+  section {
+    h3 {
+      font-size: 1.125rem;
+      font-weight: 600;
+      color: var(--text-dark);
+      margin-bottom: 1rem;
+    }
+  }
+
+  // Contact Section
+  .contact-section {
+    .contact-header {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 1rem;
+
+      .client-name {
+        font-size: 1.75rem;
+        font-weight: 600;
+        color: var(--text-dark);
+        margin: 0;
+      }
+
+      .status-badge {
+        text-transform: capitalize;
+      }
+    }
+
+    .contact-info {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+
+      .info-item {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        font-size: 1rem;
+        color: var(--text-light);
+
+        i {
+          color: var(--primary-color);
+          font-size: 1.125rem;
+        }
+      }
+    }
+  }
+
+  // Statistics Section
+  .statistics-section {
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1rem;
+
+      ::ng-deep .stat-card {
+        background-color: #F5F7F4;
+        border: none;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+
+        .p-card-body {
+          padding: 1.5rem;
+        }
+
+        .p-card-content {
+          padding: 0;
+        }
+
+        .stat-content {
+          display: flex;
+          align-items: center;
+          gap: 1rem;
+
+          .stat-icon {
+            font-size: 2rem;
+            color: var(--primary-color);
+          }
+
+          .stat-info {
+            flex: 1;
+
+            .stat-label {
+              font-size: 0.875rem;
+              color: var(--text-light);
+              margin-bottom: 0.25rem;
+            }
+
+            .stat-value {
+              font-size: 1.25rem;
+              font-weight: 600;
+              color: var(--text-dark);
+            }
+          }
+        }
+      }
+    }
+  }
+
+  // Booking History Section
+  .booking-history-section {
+    .table-wrapper {
+      background: white;
+      border-radius: 8px;
+      overflow: hidden;
+      border: 1px solid #e5e5e5;
+
+      ::ng-deep .p-datatable {
+        .p-datatable-thead > tr > th {
+          background-color: var(--primary-color);
+          color: white;
+          font-weight: 600;
+          padding: 0.75rem;
+          border: none;
+        }
+
+        .p-datatable-tbody > tr {
+          > td {
+            padding: 0.75rem;
+            border-bottom: 1px solid #e5e5e5;
+          }
+
+          &:hover {
+            background-color: #F5F7F4;
+          }
+        }
+
+        .p-badge {
+          text-transform: capitalize;
+          font-size: 0.75rem;
+        }
+      }
+
+      .text-center {
+        text-align: center;
+        padding: 1.5rem;
+        color: var(--text-light);
+      }
+    }
+  }
+
+  // Favorite Treatments Section
+  .favorite-treatments-section {
+    .treatments-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+
+      .treatment-item {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        padding: 0.75rem;
+        background-color: #F5F7F4;
+        border-radius: 6px;
+
+        i {
+          color: #FFD700;
+          font-size: 1rem;
+        }
+
+        span {
+          font-size: 1rem;
+          color: var(--text-dark);
+        }
+      }
+    }
+
+    .no-data {
+      color: var(--text-light);
+      font-style: italic;
+    }
+  }
+
+  // Notes Section
+  .notes-section {
+    .notes-textarea {
+      width: 100%;
+      font-family: inherit;
+      font-size: 1rem;
+      padding: 0.75rem;
+      border: 1px solid #e5e5e5;
+      border-radius: 6px;
+      resize: vertical;
+
+      &:focus {
+        outline: none;
+        border-color: var(--primary-color);
+      }
+    }
+
+    .notes-actions {
+      margin-top: 1rem;
+      display: flex;
+      justify-content: flex-end;
+    }
+  }
+}
+
+.dialog-footer {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+
+  ::ng-deep .p-button {
+    &.p-button-outlined {
+      color: var(--primary-color);
+      border-color: var(--primary-color);
+
+      &:hover {
+        background-color: var(--primary-color);
+        color: white;
+      }
+    }
+  }
+}
+
+// Responsive styles
+@media (max-width: 768px) {
+  .client-detail-content {
+    .contact-section {
+      .contact-header {
+        flex-direction: column;
+        align-items: flex-start;
+
+        .client-name {
+          font-size: 1.5rem;
+        }
+      }
+    }
+
+    .statistics-section {
+      .stats-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .booking-history-section {
+      .table-wrapper {
+        ::ng-deep .p-datatable {
+          font-size: 0.875rem;
+
+          .p-datatable-thead > tr > th,
+          .p-datatable-tbody > tr > td {
+            padding: 0.5rem;
+          }
+        }
+      }
+    }
+  }
+
+  .dialog-footer {
+    flex-direction: column;
+
+    ::ng-deep .p-button {
+      width: 100%;
+    }
+  }
+}
