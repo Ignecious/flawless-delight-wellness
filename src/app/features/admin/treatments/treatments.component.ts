@@ -104,8 +104,12 @@ export class TreatmentsComponent implements OnInit {
       } else {
         // Add new treatment - generate ID based on highest existing ID
         const maxId = this.treatments.reduce((max, t) => {
-          const num = parseInt(t.id.substring(1));
-          return num > max ? num : max;
+          const idMatch = t.id.match(/^t(\d+)$/);
+          if (idMatch) {
+            const num = parseInt(idMatch[1], 10);
+            return num > max ? num : max;
+          }
+          return max;
         }, 0);
         
         const newTreatment: AdminTreatment = {
