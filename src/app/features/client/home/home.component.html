@@ -1,0 +1,119 @@
+<!-- Header/Navigation -->
+<header class="header">
+  <div class="container">
+    <div class="nav-wrapper">
+      <div class="logo">
+        <div class="logo-icon">F</div>
+        <span class="logo-text">WELLNESS</span>
+      </div>
+      <nav class="nav-menu">
+        <a href="#" class="nav-link">Home</a>
+        <a href="#services" class="nav-link">Services</a>
+        <a href="#treatments" class="nav-link">Treatments</a>
+        <a href="#personalized" class="nav-link">Personalized Services</a>
+        <a href="#contact" class="nav-link">Contact</a>
+        <a href="#login" class="nav-link login-link">Login</a>
+      </nav>
+    </div>
+  </div>
+</header>
+
+<!-- Hero Section -->
+<section class="hero">
+  <div class="hero-overlay">
+    <div class="container">
+      <div class="hero-content">
+        <h1>Welcome to Flawless Delight Wellness</h1>
+        <p>Experience premium beauty and wellness services tailored just for you. Our expert therapists use cutting-edge techniques to help you look and feel your absolute best.</p>
+        <button class="btn-primary">BOOK NOW</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Signature Services -->
+<section class="signature-services" id="services">
+  <div class="container">
+    <h2 class="section-title">Our Signature Services</h2>
+    <div class="services-grid">
+      <div class="service-card" *ngFor="let service of signatureServices">
+        <div class="service-image">
+          <img [src]="service.image" [alt]="service.name">
+        </div>
+        <div class="service-info">
+          <h3>{{ service.name }}</h3>
+          <p>{{ service.description }}</p>
+          <button class="btn-secondary">View treatments</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Top Selling Treatments -->
+<section class="top-treatments" id="treatments">
+  <div class="container">
+    <h2 class="section-title">TOP SELLING TREATMENTS</h2>
+    <div class="treatments-grid">
+      <div class="treatment-card" *ngFor="let treatment of topTreatments">
+        <div class="treatment-image">
+          <img [src]="treatment.image" [alt]="treatment.name">
+        </div>
+        <h3 class="treatment-name">{{ treatment.name }}</h3>
+        <p class="treatment-price">{{ treatment.price }}</p>
+        <button class="btn-primary">Book Now</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Personalized Skincare -->
+<section class="personalized-skincare" id="personalized">
+  <div class="container">
+    <div class="skincare-content">
+      <div class="skincare-text">
+        <h2>Personalized Skincare Formulations</h2>
+        <p>Our exclusive bespoke skincare service analyzes your skin's unique needs to create custom-blended serums targeting your specific concerns, whether it's anti-aging, brightening, or hydration.</p>
+        <ul>
+          <li><strong>Custom-blended serums</strong> targeting your specific concerns</li>
+          <li><strong>Personalized moisturizers</strong> with active ingredients combined in your skin type</li>
+          <li><strong>Targeted treatments</strong> for blemishes and scars that fit your skin</li>
+          <li><strong>Fragrance-free, sensitive skin-safe</strong> formulas</li>
+        </ul>
+        <div class="skincare-actions">
+          <button class="btn-primary">WhatsApp</button>
+          <button class="btn-secondary">Book Now</button>
+        </div>
+      </div>
+      <div class="skincare-image">
+        <img src="https://images.unsplash.com/photo-1556228578-0d85b1a4d571?w=600" alt="Personalized Skincare">
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer-content">
+      <div class="footer-section">
+        <h4>Flawless Delight Wellness</h4>
+        <p>Premium beauty and wellness services for your complete transformation.</p>
+      </div>
+      <div class="footer-section">
+        <h4>Quick Links</h4>
+        <a href="#services">Services</a>
+        <a href="#treatments">Treatments</a>
+        <a href="#contact">Contact</a>
+      </div>
+      <div class="footer-section">
+        <h4>Contact Us</h4>
+        <p>📞 WhatsApp: +123 456 7890</p>
+        <p>📧 info@flawlessdelight.com</p>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2026 Flawless Delight Wellness. All rights reserved.</p>
+    </div>
+  </div>
+</footer>
