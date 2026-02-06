@@ -1,1 +1,37 @@
-{\n  "name": "flawless-delight-wellness",\n  "version": "0.0.1",\n  "private": true,\n  "scripts": {\n    "ng": "ng",\n    "build": "ng build",\n    "watch": "ng serve",\n    "test": "ng test"\n  },\n  "dependencies": {\n    "@angular/core": "^17.0.0",\n    "@angular/common": "^17.0.0",\n    "@angular/compiler": "^17.0.0",\n    "@angular/platform-browser": "^17.0.0",\n    "@angular/platform-browser-dynamic": "^17.0.0",\n    "@angular/router": "^17.0.0",\n    "@angular/material": "latest",\n    "primeng": "latest",\n    "rxjs": "^7.0.0",\n    "zone.js": "^0.14.0"\n  },\n  "devDependencies": {\n    "@angular/cli": "^17.0.0",\n    "@types/node": "^16.0.0",\n    "typescript": "^5.0.0"\n  }\n}
+{
+  "name": "flawless-delight-wellness",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "ng": "ng",
+    "start": "ng serve",
+    "build": "ng build",
+    "watch": "ng build --watch",
+    "test": "ng test"
+  },
+  "dependencies": {
+    "@angular/animations": "^17.3.0",
+    "@angular/common": "^17.3.0",
+    "@angular/compiler": "^17.3.0",
+    "@angular/core": "^17.3.0",
+    "@angular/forms": "^17.3.0",
+    "@angular/platform-browser": "^17.3.0",
+    "@angular/platform-browser-dynamic": "^17.3.0",
+    "@angular/router": "^17.3.0",
+    "@angular/material": "^17.3.0",
+    "@angular/cdk": "^17.3.0",
+    "primeng": "^17.18.0",
+    "primeicons": "^7.0.0",
+    "primeflex": "^3.3.1",
+    "rxjs": "~7.8.0",
+    "tslib": "^2.3.0",
+    "zone.js": "~0.14.2"
+  },
+  "devDependencies": {
+    "@angular-devkit/build-angular": "^17.3.0",
+    "@angular/cli": "^17.3.0",
+    "@angular/compiler-cli": "^17.3.0",
+    "@types/node": "^20.0.0",
+    "typescript": "~5.2.2"
+  }
+}
