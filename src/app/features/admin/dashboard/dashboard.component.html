@@ -1,0 +1,54 @@
+<div class="dashboard-container">
+  <h1 class="page-title">Dashboard</h1>
+
+  <div class="cards-grid">
+    <!-- Card 1: Today's Bookings -->
+    <p-card class="dashboard-card">
+      <div class="card-content">
+        <div class="card-icon">
+          <i class="pi pi-calendar"></i>
+        </div>
+        <div class="card-details">
+          <h3 class="card-title">Today's Bookings</h3>
+          <div class="card-number">{{ todaysBookingsCount }}</div>
+          <p class="card-subtitle">bookings scheduled</p>
+        </div>
+      </div>
+    </p-card>
+
+    <!-- Card 2: Today's Revenue -->
+    <p-card class="dashboard-card">
+      <div class="card-content">
+        <div class="card-icon revenue">
+          <i class="pi pi-dollar"></i>
+        </div>
+        <div class="card-details">
+          <h3 class="card-title">Today's Revenue</h3>
+          <div class="card-number">R{{ todaysRevenue.toLocaleString() }}</div>
+          <p class="card-subtitle">total earnings</p>
+        </div>
+      </div>
+    </p-card>
+
+    <!-- Card 3: Next Upcoming Booking -->
+    <p-card class="dashboard-card">
+      <div class="card-content">
+        <div class="card-icon upcoming">
+          <i class="pi pi-clock"></i>
+        </div>
+        <div class="card-details">
+          <h3 class="card-title">Next Booking</h3>
+          <ng-container *ngIf="nextBooking; else noBookings">
+            <div class="card-number">{{ nextBooking.timeSlot }}</div>
+            <p class="card-subtitle">{{ nextBooking.customer.name }}</p>
+            <p class="card-info">{{ nextBooking.treatment.name }}</p>
+            <p class="card-info">Therapist: {{ nextBooking.therapist.name }}</p>
+          </ng-container>
+          <ng-template #noBookings>
+            <p class="card-subtitle">No upcoming bookings</p>
+          </ng-template>
+        </div>
+      </div>
+    </p-card>
+  </div>
+</div>
