@@ -84,8 +84,6 @@ export class ClientDetailComponent implements OnInit, OnChanges {
       summary: 'Success',
       detail: 'Notes updated successfully'
     });
-    
-    console.log('Updated client:', updatedClient);
   }
 
   formatCurrency(amount: number): string {
@@ -110,7 +108,6 @@ export class ClientDetailComponent implements OnInit, OnChanges {
 
   // Placeholder methods for future features
   editContactInfo(): void {
-    console.log('Edit contact info - feature coming soon');
     this.messageService.add({
       severity: 'info',
       summary: 'Coming Soon',
@@ -119,7 +116,6 @@ export class ClientDetailComponent implements OnInit, OnChanges {
   }
 
   bookAppointment(): void {
-    console.log('Book appointment - feature coming soon');
     this.messageService.add({
       severity: 'info',
       summary: 'Coming Soon',

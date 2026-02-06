@@ -212,7 +212,6 @@ export class ClientsComponent implements OnInit {
   viewClient(client: Client): void {
     this.selectedClient = client;
     this.displayClientDetail = true;
-    console.log('Viewing client:', client.id);
   }
 
   onClientDetailClose(): void {
