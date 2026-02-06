@@ -45,3 +45,6 @@ src/
 
 ## Angular Version
 This project uses **Angular 17.3.x** and should NOT be upgraded to Angular 19.
+
+## Security
+See [SECURITY.md](./SECURITY.md) for a detailed security assessment. While Angular 17.3.12 has known vulnerabilities, none are exploitable in this application due to the features used.
