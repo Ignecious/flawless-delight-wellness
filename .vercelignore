@@ -1,0 +1,10 @@
+node_modules
+.angular
+.git
+*.log
+*.md
+!README.md
+src/**/*.spec.ts
+e2e
+.vscode
+.idea
